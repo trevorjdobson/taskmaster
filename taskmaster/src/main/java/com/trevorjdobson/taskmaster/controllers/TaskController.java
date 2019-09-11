@@ -37,10 +37,7 @@ public class TaskController {
         System.out.println(task.getTitle());
         Task t = new Task(task.getTitle(),task.getDescription(),task.getAssignee());
         HistoryItem historyItem = new HistoryItem("Task was created and assigned to " + task.getAssignee());
-//        List<HistoryItem> history = t.getHistory();
-//        history.add(historyItem);
-//        t.setHistory(history);
-//        String historyItem = "Task was created and assigned to " + task.getAssignee() + " on " + new Date().toString();
+
         t.addToHistory(historyItem);
         theTaskRepository.save(t);
         return t;
@@ -56,27 +53,14 @@ public class TaskController {
             task.setStatus("assigned");
             HistoryItem historyItem = new HistoryItem("Task was was assigned to " + task.getAssignee());
 
-//            List<HistoryItem> history = task.getHistory();
-//            history.add(historyItem);
-//            task.setHistory(history);
-//            String historyItem = "Task was assigned to " + task.getAssignee() + " on " + new Date().toString();
-
             task.addToHistory(historyItem);
         }else if(status.equals("assigned")){
             task.setStatus("accepted");
             HistoryItem historyItem = new HistoryItem("Task was was accepted by " + task.getAssignee());
-//            List<HistoryItem> history = task.getHistory();
-//            history.add(historyItem);
-//            task.setHistory(history);
-//            String historyItem = "Task was accepted " + task.getAssignee() + " on " + new Date().toString();
 
             task.addToHistory(historyItem);
         }else if(status.equals("accepted")){
             HistoryItem historyItem = new HistoryItem("Task was was finished by " + task.getAssignee());
-//            List<HistoryItem> history = task.getHistory();
-//            history.add(historyItem);
-//            task.setHistory(history);
-//            String historyItem = "Task was finished by " + task.getAssignee() + " on " + new Date().toString();
 
             task.addToHistory(historyItem);
             task.setStatus("finished");
@@ -90,10 +74,6 @@ public class TaskController {
         task.setAssignee(assignee);
         task.setStatus("assigned");
         HistoryItem historyItem = new HistoryItem("Task was was assigned to " + assignee);
-//        List<HistoryItem> history = task.getHistory();
-//        history.add(historyItem);
-//        task.setHistory(history);
-//        String historyItem = "Task was assigned to " + task.getAssignee() + " on " + new Date().toString();
 
         task.addToHistory(historyItem);
         theTaskRepository.save(task);
