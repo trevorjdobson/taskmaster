@@ -26,4 +26,7 @@ dependencies {
 
 	compile 'com.github.derjust:spring-data-dynamodb:5.1.0'
 	compile 'com.amazonaws:aws-java-sdk-dynamodb:1.11.585'
+	compileOnly 'org.projectlombok:lombok:1.18.10'
+	annotationProcessor 'org.projectlombok:lombok:1.18.10'
+	
 }
