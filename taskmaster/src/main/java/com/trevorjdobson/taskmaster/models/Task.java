@@ -4,7 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 
 import java.util.*;
-@lombok.Data
+
 @DynamoDBTable(tableName = "tasks")
 public class Task {
 
@@ -79,8 +79,7 @@ public class Task {
     public void setAssignee(String assignee) {
         this.assignee = assignee;
     }
-//    @DynamoDBMarshalling(marshallerClass = HistoryItemMarshaller.class)
-    @DynamoDBTypeConverted(converter = HistoryItemConverter.class)
+
     @DynamoDBAttribute
     public ArrayList<HistoryItem> getHistory() {
         return history;
