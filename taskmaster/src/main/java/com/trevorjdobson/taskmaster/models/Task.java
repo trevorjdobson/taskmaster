@@ -82,7 +82,7 @@ public class Task {
 //    @DynamoDBMarshalling(marshallerClass = HistoryItemMarshaller.class)
     @DynamoDBTypeConverted(converter = HistoryItemConverter.class)
     @DynamoDBAttribute
-    public List<HistoryItem> getHistory() {
+    public ArrayList<HistoryItem> getHistory() {
         return history;
     }
 

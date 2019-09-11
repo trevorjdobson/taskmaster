@@ -85,7 +85,7 @@ public class TaskController {
         return task;
     }
     @PutMapping("/tasks/{id}/assign/{assignee}")
-    public Task updateAssignee(@PathVariable String id, String assignee){
+    public Task updateAssignee(@PathVariable String id, @PathVariable String assignee){
         Task task = theTaskRepository.findById(id).get();
         task.setAssignee(assignee);
         task.setStatus("assigned");
