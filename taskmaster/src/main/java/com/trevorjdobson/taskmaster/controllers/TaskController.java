@@ -5,10 +5,12 @@ package com.trevorjdobson.taskmaster.controllers;
 import com.amazonaws.services.dynamodbv2.datamodeling.ItemConverter;
 import com.trevorjdobson.taskmaster.models.HistoryItem;
 import com.trevorjdobson.taskmaster.models.Task;
+import com.trevorjdobson.taskmaster.repository.S3Client;
 import com.trevorjdobson.taskmaster.repository.TheTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -21,6 +23,13 @@ public class TaskController {
     @Autowired
     TheTaskRepository theTaskRepository;
 
+    private S3Client s3Client;
+
+    @Autowired
+    TaskController(S3Client s3Client) {
+        this.s3Client = s3Client;
+    }
+
     @GetMapping("/tasks")
     public List<Task> getTasks() {
         return (List) theTaskRepository.findAll();
@@ -30,11 +39,24 @@ public class TaskController {
     public List<Task> getTasksForUser(@PathVariable String name) {
         return (List) theTaskRepository.findAllByAssignee(name);
     }
+    @GetMapping("/tasks/{id}")
+    public Task getOneTask(@PathVariable String id){
+        Task task = theTaskRepository.findById(id).get();
+        return task;
+    }
+
+    @PostMapping("tasks/{id}/images")
+    public Task addTaskImage(@PathVariable String id,@RequestPart(value = "file") MultipartFile file){
+
+        String pic = this.s3Client.uploadFile(file);
+        Task task = theTaskRepository.findById(id).get();
+        task.setImgUrl(pic);
+        theTaskRepository.save(task);
+        return task;
+    }
 
     @PostMapping("/tasks")
     public Task addNewTask (@RequestBody Task task) {
-        System.out.println(task.getAssignee());
-        System.out.println(task.getTitle());
         Task t = new Task(task.getTitle(),task.getDescription(),task.getAssignee());
         HistoryItem historyItem = new HistoryItem("Task was created and assigned to " + task.getAssignee());
 

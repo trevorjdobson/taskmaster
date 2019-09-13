@@ -13,6 +13,8 @@ public class Task {
     private String description;
     private String assignee;
     private String status;
+    private String imgUrl;
+
     private ArrayList<HistoryItem> history;
 
 
@@ -78,6 +80,15 @@ public class Task {
 
     public void setAssignee(String assignee) {
         this.assignee = assignee;
+    }
+
+    @DynamoDBAttribute
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     @DynamoDBAttribute
